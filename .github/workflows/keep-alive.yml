@@ -1,4 +1,4 @@
-name: Keep alive Green
+name: Keep Streak Green
 
 on:
   schedule:
@@ -14,18 +14,50 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Random delay
+        run: sleep $(( RANDOM % 3600 ))
+
       - name: Commit 1–10 heartbeats
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
+          QUOTES=(
+                      "Gatorade - DJ Khaled"
+                      "Life is Roblox - DJ Khaled"
+                      "Call me asparagus - DJ Khaled"
+                      "I call her chandelier - DJ Khaled"
+                      "I call her his and hers - DJ Khaled"
+                      "Another one - DJ Khaled"
+                      "They ain't believe in us.... GOD DID - DJ Khaled"
+                      "Have you ever played rugby? - DJ Khaled"
+                      "Tell them to bring out the lobster - DJ Khaled"
+                      "We the best - DJ Khaled"
+                      "They don't want you to eat the whole menu - DJ Khaled"
+                      "I told them bring out the whole ocean - DJ Khaled"
+                      "Key to success is aloe vera - DJ Khaled"
+                      "They don't want you to find the remote - DJ Khaled"
+                      "I call him situation - DJ Khaled"
+                      "Tell them bring out the whole aquarium - DJ Khaled"
+                      "They don't want you to charge your phone - DJ Khaled"
+                      "I call it the swimming pool of success - DJ Khaled"
+                      "Have you ever seen a lion eat a salad? - DJ Khaled"
+                      "They don't want you to water the whole garden - DJ Khaled"
+                      "Call me Cinnamon Toast Crunch - DJ Khaled"
+                      "What is this? - DJ Khaled"
+                      "Budget approved - DJ Khaled"
+                      "God did - DJ Khaled"
+                      "How's business? - DJ Khaled"
+                    )
+
           COUNT=$(( RANDOM % 10 + 1 ))
           echo "Committing $COUNT times today..."
 
           for i in $(seq 1 $COUNT); do
+            QUOTE="${QUOTES[$RANDOM % ${#QUOTES[@]}]}"
             echo "$(date -u +%F\ %T) — heartbeat $i/$COUNT" >> .keepalive
             git add .keepalive
-            git commit -m "chore: heartbeat $(date -u +%F) [$i/$COUNT]"
+            git commit -m "$QUOTE"
             sleep 2
           done
 
