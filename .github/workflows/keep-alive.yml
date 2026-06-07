@@ -14,9 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Random delay
-        run: sleep $(( RANDOM % 3600 ))
-
       - name: Commit 1–10 heartbeats
         run: |
           git config user.name "${{ github.actor }}"
