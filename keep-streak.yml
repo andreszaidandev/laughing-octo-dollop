@@ -1,0 +1,36 @@
+name: Keep Streak Green
+
+on:
+  schedule:
+    # GitHub Actions uses UTC for cron.
+    # 18:05 UTC == 00:05 Asia/Dhaka (UTC+6)
+    - cron: "5 18 * * *"
+  workflow_dispatch: {}   # lets you run it manually to test
+
+permissions:
+  contents: write
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update heartbeat file
+        run: |
+          echo "$(date -u +%F) — heartbeat" >> .keepalive
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "${{ github.actor }}"
+          # Use your verified noreply email so the commit counts as *you*.
+          # If you keep your email private, this alias works:
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .keepalive
+            git commit -m "chore: daily heartbeat $(date -u +%F)"
+            git push
+          else
+            echo "No changes to commit."
+          fi
