@@ -47,7 +47,7 @@ jobs:
                       "How's business? - DJ Khaled"
                     )
 
-          COUNT=$(( RANDOM % 10 + 1 ))
+          COUNT=$(( RANDOM % 10 ))
           echo "Committing $COUNT times today..."
 
           for i in $(seq 1 $COUNT); do
